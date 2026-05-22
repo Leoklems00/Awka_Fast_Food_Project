@@ -1,0 +1,5 @@
+promotion_id,promotion_name,ab_variant,discount_percent
+1,No Promo,Control,0
+2,Student Combo,Variant A,10
+3,Weekend Discount,Variant B,15
+4,Happy Hour,Variant C,20
