@@ -1,0 +1,9 @@
+pandas
+numpy
+streamlit
+psycopg2
+sqlalchemy
+mysql-connector-python
+datetime
+dotenv
+streamlit_echarts

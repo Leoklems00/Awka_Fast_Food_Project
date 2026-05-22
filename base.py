@@ -3,18 +3,18 @@
 import pandas as pd
 import numpy as np
 
-import matplotlib.pyplot as plt
-import seaborn as sns
+# import matplotlib.pyplot as plt
+# import seaborn as sns
 import streamlit as st
 
 import os
-import re
+# import re
 
 from sqlalchemy import create_engine
 import psycopg2 as pg2
 import mysql.connector as msc
 
-from decimal import Decimal
+# from decimal import Decimal
 from datetime import datetime, date
 
 from etl import calculate_quality_metrics, clean_data, prepare_data
