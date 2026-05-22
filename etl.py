@@ -96,6 +96,8 @@ def calculate_quality_metrics(df):
     
     # Data freshness - max age in hours
     if 'order_datetime' in df.columns:
+        if not pd.api.types.is_datetime64_any_dtype(df['order_datetime']):
+            df['order_datetime'] = pd.to_datetime(df['order_datetime'], errors='coerce')
         max_date = df['order_datetime'].max()
         age_hours = (datetime.now() - max_date).total_seconds() / 3600
         metrics['data_freshness_hours'] = round(age_hours, 2)

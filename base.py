@@ -29,13 +29,13 @@ my_user = os.environ.get('my_user')
 pg_password = os.environ.get('pg_password')
 my_password = os.environ.get('my_password')
 
-pg_engine = create_engine(f'postgresql://{pg_user}:{pg_password}@localhost/awka_fastfood')
-
-pg_conn = pg2.connect(database='awka_fastfood', user= pg_user, password=pg_password, port=5432)
-
-cur = pg_conn.cursor()
-
 if pg_user and  pg_password:
+
+    pg_engine = create_engine(f'postgresql://{pg_user}:{pg_password}@localhost/awka_fastfood')
+
+    pg_conn = pg2.connect(database='awka_fastfood', user= pg_user, password=pg_password, port=5432)
+
+    cur = pg_conn.cursor()
 
     cur.execute(
         """
