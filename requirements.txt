@@ -2,7 +2,7 @@ pandas
 numpy
 streamlit
 psycopg2
-sqlalchemy
+SQLAlchemy
 mysql-connector-python
 datetime
 dotenv
