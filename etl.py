@@ -361,6 +361,8 @@ def prepare_data(df_preps: dict):
     # Merge category, subcategory and products into one table
     cats = pd.merge(df_preps['subcategories'], df_preps['categories'], on='category_id')
     products = pd.merge(df_preps['products'], cats, on='subcategory_id').drop(['subcategory_id', 'category_id'], axis=1)
+    full_table = pd.merge(df_preps['order_details'], df_orders, on='order_id').drop(['order_id'], axis=1)
+    full_table = pd.merge(full_table, products, on='product_id')
     
     # Remove the category, subcategory and products tables from df_preps then add the newly prepared products table
     tables_to_be_droped = ['subcategories', 'categories', 'products']
@@ -369,6 +371,7 @@ def prepare_data(df_preps: dict):
             del df_preps[table]
     
     df_preps['products'] = products
+    df_preps['full_table'] = full_table
     
     return df_preps
 
