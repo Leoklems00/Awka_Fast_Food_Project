@@ -9,3 +9,4 @@ psycopg2-binary==2.9.12
 SQLAlchemy==2.0.44
 streamlit==1.57.0
 streamlit-echarts==0.6.0
+plotly==5.15.0
