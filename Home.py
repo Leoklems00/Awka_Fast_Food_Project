@@ -279,12 +279,12 @@ with viz_col2:
         st.header(f"Product Sales Trend for {year if year else date.today().year} ({'Volume' if by_sales_volume else 'Revenue'})")
         category = st.toggle("By Category")
         fig3 = px.bar(
-            changing_full_insights['product_sales'],
+            changing_full_insights['product_sales'].head(10) if not category else changing_full_insights['product_sales'],
             x='total_revenue' if not by_sales_volume else 'transaction_count',
             y='product' if not category else 'category',
             labels={'product': '', 'total_revenue': ''},
             color_discrete_sequence=px.colors.qualitative.Pastel,
-            category_orders={'product' if not category else 'category': changing_full_insights['product_sales']
+            category_orders={'category' if category else 'product': changing_full_insights['product_sales'].head(10)
                              .sort_values('total_revenue' if not by_sales_volume else 'transaction_count', ascending=False)[('product' if not category else 'category')]
                              .tolist()},
             color='product' if category else 'category',

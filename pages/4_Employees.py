@@ -79,12 +79,12 @@ with st.container(border=True):
     by_sales_volume = st.toggle("By Sales Volume", key="employee_sales_volume")
     role = st.toggle("By Role")
     fig3 = px.bar(
-        changing_insights['employee_sales'],
+        changing_insights['employee_sales'].head(10) if not role else changing_insights['employee_sales'],
         x='total_revenue' if not by_sales_volume else 'transaction_count',
         y='employee_name' if not role else 'role',
         labels={'employee_name': '', 'total_revenue': ''},
         color_discrete_sequence=px.colors.qualitative.Pastel,
-        category_orders={'employee_name' if not role else 'role': changing_insights['employee_sales']
+        category_orders={'role' if role else 'employee_name': changing_insights['employee_sales'].head(10)
                             .sort_values('total_revenue' if not by_sales_volume else 'transaction_count', ascending=False)[('employee_name' if not role else 'role')]
                             .tolist()},
         color='employee_name' if role else 'role',
