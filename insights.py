@@ -185,6 +185,15 @@ def selectable_insights_setup(df_tables, params:bool):
     current_monthly_sales['month_name'] = pd.to_datetime(current_monthly_sales['month'], format='%m').dt.month_name()
     insights['current_monthly_sales'] = current_monthly_sales
 
+    # Employee sales data employee_name   
+    employee_sales = df_orders[params].groupby('employee_id').agg({
+        'total_amount_paid': ['sum', 'mean'],
+        'transaction_id': 'count'
+    }).round(2).reset_index()
+    employee_sales.columns = ['employee_id', 'total_revenue', 'avg_transaction', 'transaction_count']
+    employee_sales = employee_sales.merge(df_tables['employees'], on='employee_id').drop(['employee_id'], axis=1)
+    insights['employee_sales'] = employee_sales
+
     return insights
 
 def generate_selectable_insight(df_tables, pay_method:str = "All", store_id:int = None, year = None):
@@ -222,7 +231,7 @@ def generate_selectable_insight(df_tables, pay_method:str = "All", store_id:int 
         insights['yearly_sales'] = yearly_sales
         
         # Average order value
-        average_order_value = df_orders['total_amount_paid'].mean()/df_orders['order_id'].nunique()
+        average_order_value = df_orders['total_amount_paid'].sum()/df_orders['order_id'].nunique()
         insights['average_order_value'] = average_order_value
         
         # Sales by product category
@@ -266,6 +275,15 @@ def generate_selectable_insight(df_tables, pay_method:str = "All", store_id:int 
         current_monthly_sales.columns = ['month', 'total_revenue', 'avg_transaction', 'transaction_count']
         current_monthly_sales['month_name'] = pd.to_datetime(current_monthly_sales['month'], format='%m').dt.month_name()
         insights['current_monthly_sales'] = current_monthly_sales
+
+        # Current year Employee sales data    
+        employee_sales = df_orders.groupby('employee_id').agg({
+            'total_amount_paid': ['sum', 'mean'],
+            'transaction_id': 'count'
+        }).round(2).reset_index()
+        employee_sales.columns = ['employee_id', 'total_revenue', 'avg_transaction', 'transaction_count']
+        employee_sales = employee_sales.merge(df_tables['employees'], on='employee_id').drop(['employee_id'], axis=1)
+        insights['employee_sales'] = employee_sales
 
     elif store_id == None and year in ["All", None]: # If only payment method s selected
         params = df_orders['payment_method'] == pay_method
@@ -346,9 +364,18 @@ def create_business_insights(df_tables):
     insights['yearly_sales'] = yearly_sales
         
     # Average order value
-    current_year_average_order_value = df_orders[df_orders['year'] == current_year]['total_amount_paid'].mean()/df_orders[df_orders['year'] == current_year]['order_id'].nunique()
+    current_year_average_order_value = df_orders[df_orders['year'] == current_year]['total_amount_paid'].sum()/df_orders[df_orders['year'] == current_year]['order_id'].nunique()
     insights['current_year_average_order_value'] = current_year_average_order_value
-    
+
+    # Current year Employee sales data employee_name   
+    current_year_employee_sales = df_orders[df_orders['year'] == current_year].groupby('employee_id').agg({
+        'total_amount_paid': ['sum', 'mean'],
+        'transaction_id': 'count'
+    }).round(2).reset_index()
+    current_year_employee_sales.columns = ['employee_id', 'total_revenue', 'avg_transaction', 'transaction_count']
+    current_year_employee_sales = current_year_employee_sales.merge(df_tables['employees'], on='employee_id').drop(['employee_id'], axis=1)
+    insights['current_year_employee_sales'] = current_year_employee_sales
+
     # # Segment customers
     # customer_agg['customer_segment'] = pd.cut(
     #     customer_agg['total_spend'],

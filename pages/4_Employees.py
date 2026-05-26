@@ -61,33 +61,33 @@ col1, col2 = st.columns(2)
 
 with col1:
     with st.container(border=True, vertical_alignment="bottom"):
-            st.metric(f"Number of Products", value=f"{fmt_num(changing_full_insights['product_sales']['category'].nunique())}")
-with col2:
-    with st.container(border=True, vertical_alignment="bottom"):
         col_1, col_2 = st.columns(2)
         with col_1:
-            st.metric(f"Average Order Value{"for {year}" if year else ''}", value=f"₦{fmt_num(changing_insights['average_order_value'])}")
+            st.metric(f"Number of Employees", value=f"{fmt_num(changing_insights['employee_sales']['employee_name'].nunique())}")
         with col_2:
             st.markdown(
-                f"<div style='height:100%; display:flex; align-items:flex-end; justify-content:flex-end; color:green; font-size:20px; font-weight:600;'>₦{fmt_num(insights['current_year_average_order_value'])}</div>",
+                f"<div style='height:100%; display:flex; align-items:flex-end; justify-content:flex-end; color:green; font-size:20px; font-weight:600;'>{fmt_num(insights['current_year_employee_sales']['employee_name'].nunique())}</div>",
                 unsafe_allow_html=True
             )
+with col2:
+    with st.container(border=True, vertical_alignment="bottom"):
+        st.metric(f"Average Revenue Per Emloyee{"for {year}" if year else ''}", value=f"₦{fmt_num(changing_insights['employee_sales']['avg_transaction'].mean())}")
 # with st.container(border=True):
 #     monthly_trend = st.toggle("Monthly Trend")
 with st.container(border=True):
-    st.header("Top Selling Products")
-    by_sales_volume = st.toggle("By Sales Volume", key="product_sales_volume")
-    category = st.toggle("By Category")
+    st.header("Top Employees")
+    by_sales_volume = st.toggle("By Sales Volume", key="employee_sales_volume")
+    role = st.toggle("By Role")
     fig3 = px.bar(
-        changing_full_insights['product_sales'],
+        changing_insights['employee_sales'],
         x='total_revenue' if not by_sales_volume else 'transaction_count',
-        y='product' if not category else 'category',
-        labels={'product': '', 'total_revenue': ''},
+        y='employee_name' if not role else 'role',
+        labels={'employee_name': '', 'total_revenue': ''},
         color_discrete_sequence=px.colors.qualitative.Pastel,
-        category_orders={'product' if not category else 'category': changing_full_insights['product_sales']
-                            .sort_values('total_revenue' if not by_sales_volume else 'transaction_count', ascending=False)[('product' if not category else 'category')]
+        category_orders={'employee_name' if not role else 'role': changing_insights['employee_sales']
+                            .sort_values('total_revenue' if not by_sales_volume else 'transaction_count', ascending=False)[('employee_name' if not role else 'role')]
                             .tolist()},
-        color='category' if category else None
+        color='role' if role else None
     )
     fig3.update_layout(
         template='plotly_white',

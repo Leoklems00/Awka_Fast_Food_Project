@@ -286,7 +286,9 @@ with viz_col2:
             category_orders={'product' if not category else 'category': changing_full_insights['product_sales']
                              .sort_values('total_revenue' if not by_sales_volume else 'transaction_count', ascending=False)[('product' if not category else 'category')]
                              .tolist()},
-            color='category' if category else None
+            color='product' if category else 'category',
+            hover_name=f"{'product' if category else 'category'}",
+            # hover_data=f"{'total_revenue' if not by_sales_volume else 'transaction_count'}"
         )
         fig3.update_layout(
             template='plotly_white',
