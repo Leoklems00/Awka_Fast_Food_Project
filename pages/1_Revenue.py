@@ -9,7 +9,7 @@ from decimal import Decimal
 from datetime import datetime, date
 
 from insights import create_business_insights, generate_selectable_full_insights, fmt_num, generate_selectable_insight
-from Home import df_cleaned_tables, prep_data, selectables, insights
+from Home import df_cleaned_tables, prep_data, selectables, insights, years
 
 with st.sidebar:
     st.title("Daily Analytics")
@@ -29,7 +29,7 @@ with st.sidebar:
 
     year = st.selectbox(
         "Select Year",
-        tuple(["All"]+selectables['years'].tolist()),
+        tuple(["All"]+years),
         key='daily_year'
     )
 # st.write("This is will give you insights on some of the happenings")

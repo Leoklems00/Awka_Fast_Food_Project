@@ -76,6 +76,7 @@ for name,table in tables.items():
 prep_data = prepare_data(df_cleaned_tables)
 
 selectables = create_selectables(prep_data)
+years = selectables['years']['year'].tolist()
 
 with st.sidebar:
     st.title("Executive Dashboard")
@@ -95,7 +96,7 @@ with st.sidebar:
 
     year = st.selectbox(
         "Select Year",
-        tuple(["All"]+selectables['years'].tolist()),
+        tuple(["All"]+years),
         key='base_year'
     )
 # st.write("This is will give you insights on some of the happenings")

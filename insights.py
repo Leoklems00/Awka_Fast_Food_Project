@@ -42,10 +42,7 @@ def create_selectables(df_tables):
     selectables['stores'] = df_stores
 
     # Available Years 
-    years = df_orders['order_datetime'].dt.year.unique()
-    # sort the years in ascending order
-    years = pd.DataFrame(years, columns=['year']).sort_values('year').reset_index(drop=True)
-    # years.columns = ['year']
+    years = pd.DataFrame(sorted(df_orders['order_datetime'].dt.year.unique()), columns=['year'])
     selectables['years'] = years
     
     return selectables
