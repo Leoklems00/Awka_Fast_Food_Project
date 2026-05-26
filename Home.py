@@ -208,7 +208,7 @@ with col1:
             fig1.update_traces(width=0.8, marker_color = "#1f77b4")
             st.plotly_chart(fig1, width="content", config={"displayModeBar":False})
         with col_2:
-            st.plotly_chart(guage_setup(deltas["revenue"][0], range_=[0, 1_200_000_000], color="#1f77b4"), width='content')
+            st.plotly_chart(guage_setup(deltas["revenue"][0], range_=[0, 1_200_000_000 if pg_user else 450_000_000], color="#1f77b4"), width='content')
 
 
 
@@ -239,7 +239,7 @@ with col2:
             st.plotly_chart(fig1, width="content", config={"displayModeBar":False})
             # st.bar_chart(changing_insights['yearly_sales'], x='year', y='transaction_count', height=50)
         with col_2:
-            st.plotly_chart(guage_setup(deltas["volume"][0], range_=[0, 50_000], color="#1fb41f"))
+            st.plotly_chart(guage_setup(deltas["volume"][0], range_=[0, 50_000 if pg_user else 20_000], color="#1fb41f"))
 # col1.metric(label="Curent Yearly Revenue", value=f"₦{fmt_num(insights['current_year_sales']['total_revenue'].sum())}")
 # col2.metric(label="Average Yearly Sales Volumne", value=f"{fmt_num(changing_insights['yearly_sales']['transaction_count'].mean())}", format="compact")
 # col3.metric(label="Number of Years", value=f"{changing_insights['yearly_sales']['year'].nunique():,.0f}")

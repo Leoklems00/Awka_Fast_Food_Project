@@ -62,30 +62,30 @@ with col1:
     with st.container(border=True, vertical_alignment="bottom"):
         col_1, col_2 = st.columns(2)
         with col_1:
-            st.metric(f"Total Sales Volume{"for {year}" if year else ''}", value=f"₦{fmt_num(changing_insights['yearly_sales']['transaction_count'].sum())}")
+            st.metric(f"Total Sales Volume{"for {year}" if year else ''}", value=f"{fmt_num(changing_insights['yearly_sales']['transaction_count'].sum())}")
         with col_2:
             st.markdown(
-                f"<div style='height:100%; display:flex; align-items:flex-end; justify-content:flex-end; color:green; font-size:20px; font-weight:600;'>₦{fmt_num(insights['current_year_sales']['transaction_count'].sum())}</div>",
+                f"<div style='height:100%; display:flex; align-items:flex-end; justify-content:flex-end; color:green; font-size:20px; font-weight:600;'>{fmt_num(insights['current_year_sales']['transaction_count'].sum())}</div>",
                 unsafe_allow_html=True
             )
 with col2:
     with st.container(border=True, vertical_alignment="bottom"):
         col_1, col_2 = st.columns(2)
         with col_1:
-            st.metric(f"Average Sales Volume{"for {year}" if year else ''}", value=f"₦{fmt_num(changing_insights['yearly_sales']['avg_transaction'].mean())}")
+            st.metric(f"Average Sales Volume{"for {year}" if year else ''}", value=f"{fmt_num(changing_insights['yearly_sales']['avg_transaction'].mean())}")
         with col_2:
             st.markdown(
-                f"<div style='height:100%; display:flex; align-items:flex-end; justify-content:flex-end; color:green; font-size:20px; font-weight:600;'>₦{fmt_num(insights['current_year_sales']['avg_transaction'].mean())}</div>",
+                f"<div style='height:100%; display:flex; align-items:flex-end; justify-content:flex-end; color:green; font-size:20px; font-weight:600;'>{fmt_num(insights['current_year_sales']['avg_transaction'].mean())}</div>",
                 unsafe_allow_html=True
             )
 with col3:
     with st.container(border=True, vertical_alignment="bottom"):
         col_1, col_2 = st.columns(2)
         with col_1:
-            st.metric(f"Number of Discounts{"for {year}" if year else ''}", value=f"₦{fmt_num(changing_insights['yearly_sales']['discount_count'].sum())}")
+            st.metric(f"Number of Discounts{"for {year}" if year else ''}", value=f"{fmt_num(changing_insights['yearly_sales']['discount_count'].sum())}")
         with col_2:
             st.markdown(
-                f"<div style='height:100%; display:flex; align-items:flex-end; justify-content:flex-end; color:green; font-size:20px; font-weight:600;'>₦{fmt_num(insights['current_year_sales']['discount_count'].sum())}</div>",
+                f"<div style='height:100%; display:flex; align-items:flex-end; justify-content:flex-end; color:green; font-size:20px; font-weight:600;'>{fmt_num(insights['current_year_sales']['discount_count'].sum())}</div>",
                 unsafe_allow_html=True
             )
 
