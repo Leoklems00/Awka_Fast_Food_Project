@@ -87,7 +87,9 @@ with st.container(border=True):
         category_orders={'employee_name' if not role else 'role': changing_insights['employee_sales']
                             .sort_values('total_revenue' if not by_sales_volume else 'transaction_count', ascending=False)[('employee_name' if not role else 'role')]
                             .tolist()},
-        color='role' if role else None
+        color='employee_name' if role else 'role',
+        hover_data={'total_revenue': ':,', 'transaction_count': ':,', 'employee_name': True, 'role': True},
+        hover_name='employee_name' if role else 'role'
     )
     fig3.update_layout(
         template='plotly_white',
