@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This project implements a comprehensive data pipeline and business intelligence solution for the Awka FastFood operational database. The system extracts transactional data from a PostgreSQL relational database, applies rigorous data quality validation, performs advanced data transformations, and delivers actionable business insights through an interactive Streamlit dashboard. The pipeline processes multi-source data consisting of 8 relational tables (502,190+ order records) into a unified analytical layer supporting real-time executive decision-making.
+This project implements a comprehensive data pipeline and business intelligence solution for the Awka FastFood operational database. The system extracts transactional data from a PostgreSQL relational database, applies rigorous data quality validation, performs advanced data transformations, and delivers actionable business insights through an interactive Streamlit dashboard(https://awkafastfoodproject-v2.streamlit.app/). The pipeline processes multi-source data consisting of 8 relational tables (502,190+ order records) into a unified analytical layer supporting real-time executive decision-making.
 
 ---
 
