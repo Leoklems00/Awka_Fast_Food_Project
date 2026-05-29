@@ -73,6 +73,9 @@ for name,table in tables.items():
         result_remediation_log[f'{name}'] = remediation[1]
     df_cleaned_tables[f'{name}'] = remediation[0]
 
+# import forcast
+forecast_df = pd.read_csv("data/sarima_forecast.csv")
+
 prep_data = prepare_data(df_cleaned_tables)
 
 selectables = create_selectables(prep_data)
@@ -251,17 +254,58 @@ with st.container(border=True):
 viz_col1, viz_col2 = st.columns(2)
 with viz_col1:
     with st.container():
-
+        
         st.header(f"Monthly {('Revenue' if not by_sales_volume else 'Sales Volume')} Trend for {year if year else date.today().year}")
         month_order = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        fig2 = px.bar(
-            changing_insights['current_monthly_sales'],
-            x='month_name',
-            y='total_revenue' if not by_sales_volume else 'transaction_count',
-            category_orders={'month_name': month_order},
-            labels={'month_name': '', 'total_revenue': ''},
-            color_discrete_sequence=['#636EFA']
-        )
+        
+        # Check if year is 2026 and we're showing revenue (not sales volume)
+        if year == 2026 and not by_sales_volume:
+            # Prepare data for clustered bar chart comparing actual vs forecast
+            import pandas as pd
+            
+            # Merge actual and forecast data
+            comparison_df = changing_insights['current_monthly_sales'].merge(
+                forecast_df,  # Replace with your actual forecast dataframe name
+                on='month_name',
+                how='left'
+            )
+            
+            # Reshape data for grouped bar chart
+            plot_df = pd.DataFrame({
+                'month_name': comparison_df['month_name'],
+                'Actual Revenue': comparison_df['total_revenue'],
+                'Projected Revenue': comparison_df['prediction']  # Assuming 'predictions' is the column name
+            })
+            
+            # Melt the dataframe for Plotly
+            plot_df_melted = plot_df.melt(
+                id_vars=['month_name'], 
+                var_name='Type', 
+                value_name='Revenue'
+            )
+            
+            fig2 = px.bar(
+                plot_df_melted,
+                x='month_name',
+                y='Revenue',
+                color='Type',
+                category_orders={'month_name': month_order},
+                labels={'month_name': '', 'Revenue': ''},
+                color_discrete_sequence=['#636EFA', "#03AD11"],  # Blue for actual, red for forecast
+                barmode='group'  # Explicitly set to grouped/clustered
+            )
+        else:
+            # Original behavior for other years or sales volume view
+            fig2 = px.bar(
+                changing_insights['current_monthly_sales'],
+                x='month_name',
+                y='total_revenue' if not by_sales_volume else 'transaction_count',
+                category_orders={'month_name': month_order},
+                labels={'month_name': '', 'total_revenue': ''},
+                color_discrete_sequence=['#636EFA']
+            )
+        
+        # Common layout configuration for both cases
         fig2.update_layout(
             template='plotly_white',
             plot_bgcolor='rgba(0,0,0,0)',
@@ -271,8 +315,16 @@ with viz_col1:
             yaxis=dict(title='', showgrid=False, showline=False, zeroline=False, tickfont=dict(size=12)),
             bargap=0.2,
         )
+        
+        # For the comparison chart, add a legend title
+        if year == 2026 and not by_sales_volume:
+            fig2.update_layout(
+                legend=dict(title="Revenue Type", orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+            )
+        
         fig2.update_traces(marker_line_width=0)
         st.plotly_chart(fig2, use_container_width=True, config={'displayModeBar': False})
+
 
 with viz_col2:
     with st.container():
