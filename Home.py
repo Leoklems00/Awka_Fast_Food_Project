@@ -299,6 +299,7 @@ with viz_col2:
             xaxis=dict(title='', showgrid=False, showline=False, zeroline=False, tickfont=dict(size=12)),
             yaxis=dict(title='', showgrid=False, showline=False, zeroline=False, tickfont=dict(size=12)),
             bargap=0.2,
+            barmode='stack'  # ← Add this line to force stacked bars
         )
         fig3.update_traces(marker_line_width=0)
         st.plotly_chart(fig3, use_container_width=True, config={'displayModeBar': False})
